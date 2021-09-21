@@ -1,6 +1,5 @@
 
-
-  //STEPS
+//STEPS
   //First create the drop-down
   //Barchart
   //bubblchart
@@ -112,32 +111,3 @@ function optionChanged(subjectId){
 };
 
 
-
-
-  //sample_values = sample
-  //Sample_ids = data.names
-  //console.log("Names:",data.names)
-  //console.log("Metadata",data.metadata)
-  //id = data.metadata[0]
-  //console.log("first metadata record",id)
-  //console.log("Samples",data.samples)
-  //console.log(data.samples[0].otu_ids)
-  //panelbody = d3.select("#sample-metadata")
-  //console.log("Panelbody",panelbody)
-  //var trace1 = {
-    //x: data.samples[0].otu_ids,
-   // y: data.samples[0],
-    //type: 'bar'
-//};
-//});
-
-//  for (i = 0, i < data.names.length, i++)
- // {
-   
-//  let data1 = trace1
-
-  //let layout = {
-    //title: title
-  //};
-
-  //Plotly.newPlot("plot", data);
