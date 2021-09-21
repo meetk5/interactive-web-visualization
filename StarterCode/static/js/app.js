@@ -1,3 +1,20 @@
+
+
+  //STEPS
+  //First create the drop-down
+  //Barchart
+  //bubblchart
+  //Demographics
+  //connect the dropdown to all the parts
+
+init();
+
+function init(){
+  barplot(940);
+  console.log("Init function is running now")
+}
+
+
 function barplot(sample){
 d3.json("samples.json").then(function(data) {
 
@@ -23,52 +40,80 @@ d3.json("samples.json").then(function(data) {
 
    var trace1 = {
     x: topten_ids.reverse(),
-    y: topten_otuids.reverse(),
+    y: topten_otuids.reverse().map(otu =>`OTU ${otu}`),
     text: topten_otulabels.reverse(),
     type: 'bar',
-   // orientation: "h"
-};
-
+    orientation: "h"
+   };
+    var trace2 = {
+        x: otu_ids,
+        y: ids,
+        mode: 'markers',
+        text: otu_labels,
+        marker: {
+          size: ids,
+          color: otu_ids}
+        
+      };
+    
 Plotly.newPlot("bar", [trace1]);
-  //STEPS
-  //First create the drop-down
-  for(let i =0;i < data.names.length; i++){
-    var li1 = d3.select("#selDataset").append("option").text(data.names[i]).attr('value',data.names[i]);
-  }
-  //Barchart
-  //bubblchart
-  //Demographics
-  //connect the dropdown to all the parts
+
+Plotly.newPlot("bubble", [trace2]);
+
+metadata = data.metadata.filter(sample_obj => sample_obj.id == sample);
+console.log ("Metadata", metadata[0])
 
 
- // for (i = 0; i< samples.length;i++)
-  //{ids = samples[i].id
-//console.log("ids",ids)
-//otu_ids = samples[i].otu_ids
-//console.log(otu_ids)
-//}
+//demodata = "<table><tr><td>id:" + metadata.id + "</td></tr></table>";
+  let demo = d3.select("#sample-metadata");
+  demo.html("")
+  Object.entries(metadata[0]).forEach(([a,b])=>{
+    demo.append("h5").text(`${a}:${b}`);
+  });
+  // let rows = demo.append("tr")
 
+  // rows.append("td").text(metadata[0].id);
+  
+  // rows.append("td").text(metadata[0].ethnicity);
+  // rows.append("td").text(metadata[0].gender);
+  // rows.append("td").text(metadata[0].age);
+  // rows.append("td").text(metadata[0].bbtype);
+  // rows.append("td").text(metadata[0].location);
+  // rows.append("td").text(metadata[0].wfreq);
 
-
-  //ids = samples[0].id
-  //console.log(ids);
-  //sample_value = data.samples[0]
-  //console.log(sample_value)
-  //for (i = 0; i<=data.samples.length;i++){
-    //  sample_values = data.samples[i]
-     // console.log(sample_values)
- // }
-
+// document.getElementById("#sample-metadata").innerHTML = demodata; 
 });
 }
 
+// function Demographics(sample)
+// {
+//   metadata = data.metadata[0].filter(sample_obj => sample_obj.id == sample);
+// console.log ("Metadata", metadata)
+
+// //demodata = "<table><tr><td>id:" + metadata.id + "</td></tr></table>";
+//   let demo = d3.select("#sample-metadata")
+//   demo.html("")
+//   let rows = demo.append("tr")
+
+//   rows.append("td").text(metadata)
+// }
+
+d3.json("samples.json").then(function(data) {
+    for(let i =0;i < data.names.length; i++){
+        var li1 = d3.select("#selDataset").append("option").text(data.names[i]).attr('value',data.names[i]);
+      }});
 
 function optionChanged(subjectId){
-    console.log(subjectId)
+    
+    console.log("SubjectID", subjectId);
+    barplot(subjectId);
+    Demographics(subjectId);
 
-}
+};
 
-barplot("940");
+
+
+
   //sample_values = sample
   //Sample_ids = data.names
   //console.log("Names:",data.names)
